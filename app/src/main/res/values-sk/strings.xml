@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">IntraConnect</string>
+    <string name="login">Prihlásenie</string>
+    <string name="email">Email</string>
+    <string name="password">Heslo</string>
+    <string name="forgot_password">Zabudli ste heslo?</string>
+    <string name="forgot_password_message">Prosím, obráťte sa na Vášho správcu.</string>
+    <string name="sign_in">Prihlásiť sa</string>
+    <string name="error_empty_fields">Prosím, vyplňte všetky polia.</string>
+</resources>

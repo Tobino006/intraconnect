@@ -1,3 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">IntraConnect</string>
+    <string name="login">Login</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="forgot_password">Forgot password?</string>
+    <string name="forgot_password_message">Please contact your administrator for further assistance.</string>
+    <string name="sign_in">Sign in</string>
+    <string name="error_empty_fields">Please fill in all fields.</string>
 </resources>
