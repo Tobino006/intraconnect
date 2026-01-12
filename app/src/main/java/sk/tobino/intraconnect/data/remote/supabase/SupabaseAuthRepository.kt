@@ -2,7 +2,6 @@ package sk.tobino.intraconnect.data.remote.supabase
 
 import io.github.jan.supabase.auth.auth
 import io.github.jan.supabase.auth.providers.builtin.Email
-import sk.tobino.intraconnect.data.remote.supabase.SupabaseClientProvider
 import sk.tobino.intraconnect.data.remote.supabase.SupabaseClientProvider.client
 
 class SupabaseAuthRepository {
