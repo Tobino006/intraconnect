@@ -4,8 +4,16 @@
     <string name="login">Prihlásenie</string>
     <string name="email">Email</string>
     <string name="password">Heslo</string>
-    <string name="forgot_password">Zabudli ste heslo?</string>
-    <string name="forgot_password_message">Prosím, obráťte sa na Vášho správcu.</string>
+    <string name="cannot_login">Problém s prihlásením?</string>
+    <string name="cannot_login_message">Prosím, obráťte sa na Vášho správcu.</string>
     <string name="sign_in">Prihlásiť sa</string>
     <string name="error_empty_fields">Prosím, vyplňte všetky polia.</string>
+    <string name="login_fail">Prihlásenie zlyhalo.</string>
+    <string name="login_fail_text">Skontrolujte, či email a heslo sú správne.</string>
+    <string name="home">Domov</string>
+    <string name="profile">Profil</string>
+    <string name="settings">Nastavenia</string>
+    <string name="theme">Vzhľad</string>
+    <string name="settings_use_company_theme">Použiť firemné farby</string>
+    <string name="settings_use_company_theme_comment">Ak je vypnuté, použije sa štandardná téma aplikácie.</string>
 </resources>
