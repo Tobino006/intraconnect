@@ -7,6 +7,7 @@ class IntraConnectApp : Application() {
     override fun onCreate() {
         super.onCreate()
 
+        // Initialize Supabase client
         SupabaseClientProvider.initialize(this)
     }
 }

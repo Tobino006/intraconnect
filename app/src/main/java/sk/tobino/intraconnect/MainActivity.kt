@@ -9,9 +9,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewmodel.compose.viewModel
-import sk.tobino.intraconnect.ui.screen.home.HomeScreen
 import sk.tobino.intraconnect.ui.screen.login.LoginScreen
 import sk.tobino.intraconnect.ui.screen.login.LoginViewModel
+import sk.tobino.intraconnect.ui.navigation.AppNav
 import sk.tobino.intraconnect.ui.theme.AppTheme
 
 class MainActivity : ComponentActivity() {
@@ -19,16 +19,17 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         enableEdgeToEdge()
+
         setContent {
             AppTheme {
-                val vm: LoginViewModel = viewModel()
+                val loginVm: LoginViewModel = viewModel()
                 var isLoggedIn by remember { mutableStateOf(false) }
 
                 if (isLoggedIn) {
-                    HomeScreen()
+                    AppNav()
                 } else {
-                    LoginScreen (
-                        viewModel = vm,
+                    LoginScreen(
+                        viewModel = loginVm,
                         onLoginSuccess = { isLoggedIn = true }
                     )
                 }
