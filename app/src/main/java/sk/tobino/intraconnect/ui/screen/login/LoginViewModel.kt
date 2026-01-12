@@ -45,4 +45,8 @@ class LoginViewModel (
             }
         }
     }
+
+    fun clearError() {
+        _uiState.value = _uiState.value.copy(error = null)
+    }
 }

@@ -12,6 +12,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import sk.tobino.intraconnect.R
@@ -33,14 +34,42 @@ fun LoginScreen(
         }
     }
 
+    // error dialog
+    if (uiState.error != null) {
+        AlertDialog (
+            onDismissRequest = {
+                viewModel.clearError()
+            },
+            title = { Text (
+                stringResource(R.string.login_fail),
+                style = MaterialTheme.typography.bodyLarge,
+                fontWeight = FontWeight.Bold)
+                },
+            text = { Text (
+                stringResource(R.string.login_fail_text),
+                style = MaterialTheme.typography.bodyLarge
+                ) },
+            confirmButton = {
+                TextButton(onClick = { viewModel.clearError() }) {
+                    Text (
+                        text = "OK",
+                        style = MaterialTheme.typography.bodyLarge,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+            }
+        )
+    }
+
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
     ) {
+        // cannot login bottom sheet
         if (showBottomSheet) {
             ModalBottomSheet(onDismissRequest = { showBottomSheet = false }) {
                 Text(
-                    text = stringResource(R.string.forgot_password_message),
+                    text = stringResource(R.string.cannot_login_message),
                     style = MaterialTheme.typography.bodyLarge,
                     modifier = Modifier.padding(16.dp)
                 )
@@ -55,7 +84,7 @@ fun LoginScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
-            Spacer(modifier = Modifier.height(120.dp))
+            Spacer(modifier = Modifier.height(150.dp))
 
             Image(
                 painter = painterResource(R.drawable.ic_logo),
@@ -99,7 +128,7 @@ fun LoginScreen(
 
             HorizontalDivider(
                 modifier = Modifier.fillMaxWidth(),
-                color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.2f)
+                color = MaterialTheme.colorScheme.onBackground
             )
 
             Spacer(modifier = Modifier.height(32.dp))
@@ -132,13 +161,14 @@ fun LoginScreen(
 
             HorizontalDivider(
                 modifier = Modifier.fillMaxWidth(),
-                color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.2f)
+                color = MaterialTheme.colorScheme.onBackground,
             )
 
             TextButton(onClick = { showBottomSheet = true }) {
                 Text(
-                    text = stringResource(R.string.forgot_password),
-                    fontFamily = MaterialTheme.typography.headlineLarge.fontFamily
+                    text = stringResource(R.string.cannot_login),
+                    fontFamily = MaterialTheme.typography.headlineLarge.fontFamily,
+                    textDecoration = TextDecoration.Underline,
                 )
             }
 
@@ -150,7 +180,7 @@ fun LoginScreen(
                 enabled = !uiState.loading,
                 modifier = Modifier
                     .width(160.dp)
-                    .height(56.dp),
+                    .height(60.dp),
                 shape = MaterialTheme.shapes.medium
             ) {
                 if (uiState.loading) {
@@ -167,15 +197,6 @@ fun LoginScreen(
                         fontSize = 16.sp
                     )
                 }
-            }
-
-            // ERROR MESSAGE
-            if (uiState.error != null) {
-                Spacer(modifier = Modifier.height(16.dp))
-                Text(
-                    text = uiState.error!!,
-                    color = MaterialTheme.colorScheme.error
-                )
             }
         }
     }

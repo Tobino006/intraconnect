@@ -10,14 +10,14 @@ private val LightColors = lightColorScheme (
     primary = LightPrimary,
     onPrimary = LightOnPrimary,
     background = LightBackground,
-    onBackground = LightOnBackground
+    onBackground = LightOnBackground,
 )
 
 private val DarkColors = darkColorScheme (
     primary = DarkPrimary,
     onPrimary = DarkOnPrimary,
     background = DarkBackground,
-    onBackground = DarkOnBackground
+    onBackground = DarkOnBackground,
 )
 
 @Composable

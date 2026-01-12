@@ -42,5 +42,14 @@ val AppTypography = Typography (
         fontFamily = Poppins,
         fontWeight = FontWeight.Bold,
         fontSize = 40.sp
+    ),
+
+    labelSmall = TextStyle (
+        fontFamily = Poppins,
+        fontSize = 14.sp
+    ),
+
+    bodySmall = TextStyle (
+        fontFamily = Poppins,
     )
 )
