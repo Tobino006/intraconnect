@@ -50,8 +50,7 @@ class NotificationRepository(
 
         val notifs = notifResult.decodeList<NotificationDto>()
         Log.d(
-            "NotificationRepository",
-            "getForDepartment: fetched notifications.size=${notifs.size}, notifIds=${notifs.map { it.id }}"
+            "NotificationRepository", "getForDepartment: fetched notifications.size=${notifs.size}, notifIds=${notifs.map { it.id }}"
         )
 
         return notifResult.decodeList<NotificationDto>()

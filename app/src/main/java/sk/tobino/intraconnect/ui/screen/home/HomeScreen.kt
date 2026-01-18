@@ -1,14 +1,17 @@
 package sk.tobino.intraconnect.ui.screen.home
 
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
+import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -24,6 +27,7 @@ import sk.tobino.intraconnect.ui.screen.settings.SettingsUiState
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import sk.tobino.intraconnect.ui.screen.profile.ProfileScreen
 import sk.tobino.intraconnect.ui.screen.settings.SettingsViewModel
 import sk.tobino.intraconnect.ui.theme.CompanyTheme
 import sk.tobino.intraconnect.ui.theme.ThemeMode
@@ -32,7 +36,8 @@ import sk.tobino.intraconnect.ui.theme.ThemeMode
 @Composable
 fun HomeScreen (
     nav: NavHostController,
-        vm: HomeViewModel = viewModel(factory = HomeViewModelFactory())
+    onLogout: () -> Unit,
+    vm: HomeViewModel = viewModel(factory = HomeViewModelFactory())
 ) {
     val state = vm.uiState
 
@@ -78,7 +83,9 @@ fun HomeScreen (
                 onSelectedIndexChange = { selectedIndex = it },
                 state = state,
                 settingsState = settingsState,
-                onThemeModeChange = settingsVm::setThemeMode
+                onThemeModeChange = settingsVm::setThemeMode,
+                onLogout = onLogout,
+                onProfileUpdated = vm::loadHomeData
             )
         }
     } else {
@@ -89,12 +96,15 @@ fun HomeScreen (
             onSelectedIndexChange = { selectedIndex = it },
             state = state,
             settingsState = settingsState,
-            onThemeModeChange = settingsVm::setThemeMode
+            onThemeModeChange = settingsVm::setThemeMode,
+            onLogout = onLogout,
+            onProfileUpdated = vm::loadHomeData
         )
     }
 
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun HomeScreenContent (
     nav: NavHostController,
@@ -102,10 +112,12 @@ private fun HomeScreenContent (
     onSelectedIndexChange: (Int) -> Unit,
     state: HomeUiState,
     settingsState: SettingsUiState,
-    onThemeModeChange: (ThemeMode) -> Unit
+    onThemeModeChange: (ThemeMode) -> Unit,
+    onLogout: () -> Unit,
+    onProfileUpdated: () -> Unit
 ) {
     Scaffold (
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier.fillMaxSize().systemBarsPadding(),
         topBar = {
             HomeHeader (
                 logoUrl = state.company?.logoUrl
@@ -122,11 +134,17 @@ private fun HomeScreenContent (
 
         when (selectedIndex) {
             0 -> {
-                Column(Modifier
-                    .fillMaxSize()
-                    .padding(innerPadding))
-                {
+                val pullToRefreshState = rememberPullToRefreshState()
 
+                PullToRefreshBox (
+                    state = pullToRefreshState,
+                    isRefreshing = state.isLoading,
+                    onRefresh = {
+                        // load data again
+                        onProfileUpdated()
+                    },
+                    modifier = Modifier.fillMaxSize().padding(innerPadding),
+                ) {
                     LazyColumn (
                         modifier = Modifier
                             .fillMaxSize()
@@ -152,6 +170,21 @@ private fun HomeScreenContent (
                     SettingsScreen (
                         state = settingsState,
                         onThemeModeChange = onThemeModeChange
+                    )
+                }
+            }
+
+            3 -> {
+                // profile tab
+                Box (
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(innerPadding),
+                ) {
+                    ProfileScreen (
+                        user = state.user,
+                        onProfileUpdated = onProfileUpdated,
+                        onLogout = onLogout
                     )
                 }
             }

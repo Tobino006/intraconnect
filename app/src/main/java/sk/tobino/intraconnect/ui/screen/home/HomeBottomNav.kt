@@ -1,6 +1,8 @@
 package sk.tobino.intraconnect.ui.screen.home
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MaterialTheme.colorScheme
@@ -9,7 +11,9 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -44,7 +48,8 @@ fun HomeBottomNav (
                         AsyncImage (
                             model = profileAvatarUrl,
                             contentDescription = null,
-                            modifier = Modifier.size(30.dp)
+                            modifier = Modifier.size(30.dp).clip(CircleShape).background(MaterialTheme.colorScheme.background, CircleShape),
+                            contentScale = ContentScale.Crop
                         )
                     } else {
                         // other icons

@@ -28,8 +28,7 @@ fun HomeHeader(logoUrl: String?) {
     val fullLogoUrl = logoUrl?.let { "$baseUrl/storage/v1/object/public/$it" }
     Log.d("HomeHeader", "logoUrl=$logoUrl, fullLogoUrl=$fullLogoUrl")
     Box(
-        modifier = Modifier
-            .fillMaxWidth()
+        modifier = Modifier.fillMaxWidth()
             .height(100.dp)
             .background(MaterialTheme.colorScheme.primary),
         contentAlignment = Alignment.Center
@@ -44,7 +43,6 @@ fun HomeHeader(logoUrl: String?) {
                     .build(),
                 contentDescription = null,
                 modifier = Modifier
-                    .padding(start = 20.dp)
                     .size(60.dp)
                     .clip(CircleShape)
                     .background(Color.White)

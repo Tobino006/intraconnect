@@ -9,12 +9,17 @@ import androidx.navigation.compose.rememberNavController
 import sk.tobino.intraconnect.ui.screen.home.HomeScreen
 
 @Composable
-fun AppNav() {
+fun AppNav (
+    onLogout: () -> Unit
+) {
     val nav = rememberNavController()
 
     NavHost(nav, startDestination = "home") {
         composable("home") {
-            HomeScreen(nav)
+            HomeScreen (
+                nav = nav,
+                onLogout = onLogout
+            )
         }
 
         composable("detail/{id}") { backStackEntry ->

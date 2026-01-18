@@ -62,7 +62,7 @@ fun LoginScreen(
     }
 
     Surface(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier.fillMaxSize().systemBarsPadding(),
         color = MaterialTheme.colorScheme.background
     ) {
         // cannot login bottom sheet

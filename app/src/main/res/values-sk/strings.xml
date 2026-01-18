@@ -16,4 +16,14 @@
     <string name="theme">Vzhľad</string>
     <string name="settings_use_company_theme">Použiť firemné farby</string>
     <string name="settings_use_company_theme_comment">Ak je vypnuté, použije sa štandardná téma aplikácie.</string>
+    <string name="name">Meno</string>
+    <string name="phone">Tefelón</string>
+    <string name="new_password">Nové heslo</string>
+    <string name="save_changes">Uložiť zmeny</string>
+    <string name="logout">Odhlásiť sa</string>
+    <string name="auth_weak_password_title">Slabé heslo</string>
+    <string name="auth_weak_password_exception">Heslo musí obsahovať malé/veľké písmená, aspoň jedno číslo a špeciálny znak. Prerušujem ukladanie dát.</string>
+    <string name="position">Pozícia</string>
+    <string name="department">Oddelenie</string>
+    <string name="company">Firma</string>
 </resources>
