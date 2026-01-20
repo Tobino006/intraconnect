@@ -26,4 +26,9 @@
     <string name="position">Pozícia</string>
     <string name="department">Oddelenie</string>
     <string name="company">Firma</string>
+    <string name="notification_departmentGlobal">Všetky oddelenia</string>
+    <string name="notification_published">Zverejnené:</string>
+    <string name="notification_updated">Upravené:</string>
+    <string name="notification_detail">Detail oznamu</string>
+    <string name="go_back">Späť</string>
 </resources>

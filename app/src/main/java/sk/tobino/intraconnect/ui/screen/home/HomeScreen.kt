@@ -27,6 +27,7 @@ import sk.tobino.intraconnect.ui.screen.settings.SettingsUiState
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import sk.tobino.intraconnect.ui.screen.notification.NotificationCard
 import sk.tobino.intraconnect.ui.screen.profile.ProfileScreen
 import sk.tobino.intraconnect.ui.screen.settings.SettingsViewModel
 import sk.tobino.intraconnect.ui.theme.CompanyTheme
@@ -37,7 +38,7 @@ import sk.tobino.intraconnect.ui.theme.ThemeMode
 fun HomeScreen (
     nav: NavHostController,
     onLogout: () -> Unit,
-    vm: HomeViewModel = viewModel(factory = HomeViewModelFactory())
+    vm: HomeViewModel
 ) {
     val state = vm.uiState
 
@@ -151,7 +152,7 @@ private fun HomeScreenContent (
                             .padding(bottom = 80.dp, top = 16.dp)
                     ) {
                         items(state.notifications) { notif ->
-                            NotificationCard (
+                            NotificationCard(
                                 notif = notif,
                                 onClick = { nav.navigate("detail/${notif.id}") }
                             )

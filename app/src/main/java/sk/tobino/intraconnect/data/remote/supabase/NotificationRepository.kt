@@ -6,7 +6,6 @@ import io.github.jan.supabase.postgrest.postgrest
 import sk.tobino.intraconnect.data.model.NotificationDepartmentDto
 import sk.tobino.intraconnect.data.model.NotificationDto
 
-
 class NotificationRepository(
     private val client: SupabaseClient = SupabaseClientProvider.client
 ) {
@@ -56,4 +55,41 @@ class NotificationRepository(
         return notifResult.decodeList<NotificationDto>()
     }
 
+    suspend fun getById(notificationId: String): NotificationDto? {
+        Log.d("NotificationRepository", "Querying notification for id=$notificationId")
+
+        return try {
+            val result = client.postgrest["notification"].select {
+                filter {
+                    eq("id", notificationId)
+                }
+            }
+
+            val notifications = result.decodeList<NotificationDto>()
+            val notification = notifications.firstOrNull()
+            Log.d("NotificationRepository", "Loaded notification ${notification?.id}")
+            notification
+        } catch (e: Exception) {
+            Log.e("NotificationRepository", "Error loading notification $notificationId", e)
+            null
+        }
+    }
+
+
+    suspend fun getDepartmentsForNotification(notificationId: String): List<NotificationDepartmentDto> {
+        Log.d("NotificationRepository", "Querying departments for notification $notificationId")
+
+        val depResult = client.postgrest["notification_department"].select {
+            filter {
+                eq("notification_id", notificationId)
+            }
+        }
+
+        val depRows = depResult.decodeList<NotificationDepartmentDto>()
+        Log.d (
+            "NotificationRepository",
+            "getDepartmentsForNotification: rows.size=${depRows.size}, depIds=${depRows.map { it.departmentId}}"
+        )
+        return depRows
+    }
 }
