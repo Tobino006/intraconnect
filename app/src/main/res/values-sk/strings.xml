@@ -17,7 +17,7 @@
     <string name="settings_use_company_theme">Použiť firemné farby</string>
     <string name="settings_use_company_theme_comment">Ak je vypnuté, použije sa štandardná téma aplikácie.</string>
     <string name="name">Meno</string>
-    <string name="phone">Tefelón</string>
+    <string name="phone">Telefón</string>
     <string name="new_password">Nové heslo</string>
     <string name="save_changes">Uložiť zmeny</string>
     <string name="logout">Odhlásiť sa</string>
@@ -27,8 +27,8 @@
     <string name="department">Oddelenie</string>
     <string name="company">Firma</string>
     <string name="notification_departmentGlobal">Všetky oddelenia</string>
-    <string name="notification_published">Zverejnené:</string>
-    <string name="notification_updated">Upravené:</string>
+    <string name="notification_published">Zverejnené: </string>
+    <string name="notification_updated">Upravené: </string>
     <string name="notification_detail">Detail oznamu</string>
     <string name="go_back">Späť</string>
 </resources>

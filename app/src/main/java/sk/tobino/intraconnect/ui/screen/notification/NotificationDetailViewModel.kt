@@ -8,12 +8,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import io.github.jan.supabase.postgrest.postgrest
 import kotlinx.coroutines.launch
-import sk.tobino.intraconnect.R
 import sk.tobino.intraconnect.data.model.NotificationDto
 import sk.tobino.intraconnect.data.model.UserDto
 import sk.tobino.intraconnect.data.remote.supabase.DepartmentRepository
 import sk.tobino.intraconnect.data.remote.supabase.NotificationRepository
 import sk.tobino.intraconnect.data.remote.supabase.SupabaseClientProvider
+import sk.tobino.intraconnect.ui.util.formatDate
+import java.util.Locale
 
 data class NotificationDetailUiState (
     val isLoading: Boolean = true,
@@ -71,9 +72,21 @@ class NotificationDetailViewModel (
                 }
             }
 
-            // date formatting - simple for now
-            val publishedText = " ${notification.publishedAt}"
-            val updatedText = notification.updatedAt?.let { " $it" }
+            // date formatting - based on locale
+            val locale = Locale.getDefault()
+
+            val publishedText = formatDate (
+                raw = notification.publishedAt,
+                locale = locale
+            )
+
+            val updatedText = notification.updatedAt?.let {
+                formatDate (
+                    raw = it,
+                    locale = locale
+                )
+            }
+
 
             uiState = NotificationDetailUiState(
                 isLoading = false,

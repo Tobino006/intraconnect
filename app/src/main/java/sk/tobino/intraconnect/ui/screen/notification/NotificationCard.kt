@@ -9,9 +9,12 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -24,6 +27,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -58,7 +62,8 @@ fun NotificationCard(
             notif.message,
             maxLines = 3,
             overflow = TextOverflow.Ellipsis,
-            color = if (isDark) Color.White else Color.Black
+            color = if (isDark) Color.White else Color.Black,
+            textAlign = TextAlign.Justify
         )
 
         HorizontalDivider(Modifier.padding(top = 12.dp))
@@ -142,11 +147,18 @@ fun NotificationDetailCard (
 
         Spacer(modifier = Modifier.height(12.dp))
 
-        // message
-        Text(
-            text = notification.message,
-            style = MaterialTheme.typography.bodyLarge,
-        )
+        // scrollable message
+        Column(
+            modifier = Modifier
+                .heightIn(max = 425.dp) // 👈 limit výšky
+                .verticalScroll(rememberScrollState())
+        ) {
+            Text(
+                text = notification.message,
+                style = MaterialTheme.typography.bodyLarge,
+                textAlign = TextAlign.Justify
+            )
+        }
 
         Spacer(modifier = Modifier.padding(top = 24.dp))
 

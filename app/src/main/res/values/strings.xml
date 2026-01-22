@@ -27,8 +27,8 @@
     <string name="department">Department</string>
     <string name="company">Company</string>
     <string name="notification_departmentGlobal">All departments</string>
-    <string name="notification_published">Published:</string>
-    <string name="notification_updated">Updated:</string>
+    <string name="notification_published">Published: </string>
+    <string name="notification_updated">Updated: </string>
     <string name="notification_detail">Notification detail</string>
     <string name="go_back">Go Back</string>
 </resources>
