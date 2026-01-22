@@ -166,14 +166,14 @@ fun NotificationDetailCard (
         Column {
             if (publishedText != null) {
                 Text(
-                    text = stringResource(R.string.notification_published) + publishedText,
+                    text = stringResource(R.string.notification_published) + " " + publishedText,
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f)
                 )
             }
             if (updatedText != null) {
                 Text(
-                    text = stringResource(R.string.notification_updated) + updatedText,
+                    text = stringResource(R.string.notification_updated) + " " + updatedText,
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.tertiary
                 )
