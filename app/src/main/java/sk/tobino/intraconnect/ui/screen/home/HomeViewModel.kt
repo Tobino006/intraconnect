@@ -16,11 +16,23 @@ import io.github.jan.supabase.postgrest.postgrest
 import sk.tobino.intraconnect.data.remote.supabase.SupabaseClientProvider
 import sk.tobino.intraconnect.data.model.UserDto
 
+enum class NotificationFilter {
+    ALL,
+    GLOBAL_ONLY,
+    DEPARTMENT_ONLY
+}
+
 data class HomeUiState (
     val company : CompanyDto? = null,
     val notifications : List<NotificationDto> = emptyList(),
+    val allNotifications: List<NotificationDto> = emptyList(),
     val isLoading : Boolean = true,
-    val user: UserDto? = null
+    val user: UserDto? = null,
+    val notificationFilter: NotificationFilter = NotificationFilter.ALL,
+    val currentOffset: Int = 0,
+    val pageSize: Int = 10,
+    val canLoadMore: Boolean = true,
+    val isLoadingMore: Boolean = false
 )
 
 class HomeViewModel (
@@ -73,14 +85,24 @@ class HomeViewModel (
 
             val company = getCompany(companyId)
             Log.d("HomeViewModel", "Loaded company: ${company.name}")
-            val notifications = getNotifications(companyId, departmentId)
-            Log.d("HomeViewModel", "Loaded ${notifications.size} notifications")
+            val firstPage = getNotifications(companyId, departmentId, uiState.pageSize, 0)
+            Log.d("HomeViewModel", "Loaded ${firstPage.size} notifications")
+            val currentFilter = uiState.notificationFilter
 
             uiState = HomeUiState (
                 company = company,
-                notifications = notifications,
+                notifications = applyFilter (
+                    firstPage,
+                    currentFilter,
+                ),
+                allNotifications = firstPage,
                 isLoading = false,
-                user = userRow
+                user = userRow,
+                currentOffset = firstPage.size,
+                canLoadMore = firstPage.size == uiState.pageSize,
+                isLoadingMore = false,
+                notificationFilter = currentFilter
+
             )
         } catch (e: Exception) {
             Log.e("HomeViewModel", "Error in loadHomeData", e)
@@ -89,7 +111,51 @@ class HomeViewModel (
 
     }
 
+    fun loadNextPage() = viewModelScope.launch {
+        val companyId = uiState.user?.companyId ?: return@launch
+        val departmentId = uiState.user?.departmentId
+
+        if (!uiState.canLoadMore || uiState.isLoadingMore) return@launch
+
+        try {
+            val nextPage = getNotifications(companyId, departmentId, uiState.pageSize, uiState.currentOffset)
+            val newList = uiState.notifications + nextPage
+            uiState = uiState.copy (
+                notifications = applyFilter(newList, uiState.notificationFilter),
+                allNotifications = newList,
+                currentOffset = uiState.currentOffset + nextPage.size,
+                canLoadMore = newList.size == uiState.pageSize,
+                isLoadingMore = false
+            )
+        } catch (e: Exception) {
+            uiState = uiState.copy(isLoadingMore = false)
+            Log.e("HomeViewModel", "Error loading next page", e)
+        }
+    }
+
     private fun setLoadingState() {
         uiState = uiState.copy(isLoading = true)
+    }
+
+    fun setNotificationFilter(filter: NotificationFilter) {
+        val filtered = applyFilter (
+            uiState.allNotifications,
+            filter
+        )
+        uiState = uiState.copy (
+            notificationFilter = filter,
+            notifications = filtered
+        )
+    }
+
+    private fun applyFilter (
+        notifications: List<NotificationDto>,
+        filter: NotificationFilter,
+    ): List<NotificationDto> {
+        return when (filter) {
+            NotificationFilter.ALL -> notifications
+            NotificationFilter.GLOBAL_ONLY -> notifications.filter { it.isGlobal }
+            NotificationFilter.DEPARTMENT_ONLY -> notifications.filter { !it.isGlobal }
+        }
     }
 }

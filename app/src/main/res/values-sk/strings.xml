@@ -31,4 +31,10 @@
     <string name="notification_updated">Upravené: </string>
     <string name="notification_detail">Detail oznamu</string>
     <string name="go_back">Späť</string>
+    <string name="filter_notifications">Filtrovať oznamy</string>
+    <string name="filter_global">Len globálne</string>
+    <string name="filter_department">Len pre moje oddelenie</string>
+    <string name="filter_all">Všetky</string>
+    <string name="filter_global_department">Všetky (globálne a pre moje oddelenie)</string>
+
 </resources>

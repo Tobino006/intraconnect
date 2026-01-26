@@ -5,7 +5,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import sk.tobino.intraconnect.ui.screen.notification.NotificationCard
+import sk.tobino.intraconnect.ui.screen.notification.NotificationFilterScreen
 import sk.tobino.intraconnect.ui.screen.profile.ProfileScreen
 import sk.tobino.intraconnect.ui.screen.settings.SettingsViewModel
 import sk.tobino.intraconnect.ui.theme.CompanyTheme
@@ -86,7 +87,9 @@ fun HomeScreen (
                 settingsState = settingsState,
                 onThemeModeChange = settingsVm::setThemeMode,
                 onLogout = onLogout,
-                onProfileUpdated = vm::loadHomeData
+                onProfileUpdated = vm::loadHomeData,
+                onFilterChange = vm::setNotificationFilter,
+                onLoadNextPage = vm::loadNextPage
             )
         }
     } else {
@@ -99,7 +102,9 @@ fun HomeScreen (
             settingsState = settingsState,
             onThemeModeChange = settingsVm::setThemeMode,
             onLogout = onLogout,
-            onProfileUpdated = vm::loadHomeData
+            onProfileUpdated = vm::loadHomeData,
+            onFilterChange = vm::setNotificationFilter,
+            onLoadNextPage = vm::loadNextPage
         )
     }
 
@@ -115,7 +120,9 @@ private fun HomeScreenContent (
     settingsState: SettingsUiState,
     onThemeModeChange: (ThemeMode) -> Unit,
     onLogout: () -> Unit,
-    onProfileUpdated: () -> Unit
+    onProfileUpdated: () -> Unit,
+    onFilterChange: (NotificationFilter) -> Unit,
+    onLoadNextPage: () -> Unit
 ) {
     Scaffold (
         modifier = Modifier.fillMaxSize().systemBarsPadding(),
@@ -151,13 +158,50 @@ private fun HomeScreenContent (
                             .fillMaxSize()
                             .padding(bottom = 80.dp, top = 16.dp)
                     ) {
-                        items(state.notifications) { notif ->
+                        itemsIndexed(state.notifications) { index, notif ->
                             NotificationCard(
                                 notif = notif,
                                 onClick = { nav.navigate("detail/${notif.id}") }
                             )
+
+                            // if on last item, try loading more
+                            if (index == state.notifications.lastIndex) {
+                                onLoadNextPage()
+                            }
+                        }
+
+                        if (state.isLoadingMore) {
+                            item {
+                                Box(
+                                    modifier = Modifier
+                                        .fillMaxSize()
+                                        .padding(16.dp),
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    CircularProgressIndicator()
+                                }
+                            }
                         }
                     }
+                }
+            }
+
+            1 -> {
+                // filter tab
+                Box (
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(innerPadding),
+                    contentAlignment = Alignment.Center
+                ) {
+                    NotificationFilterScreen (
+                        hasDepartment = state.user?.departmentId != null,
+                        currentFilter = state.notificationFilter,
+                        onFilterSelected = { filter ->
+                            onFilterChange(filter)
+                            onSelectedIndexChange(0)
+                        }
+                    )
                 }
             }
 
@@ -187,17 +231,6 @@ private fun HomeScreenContent (
                         onProfileUpdated = onProfileUpdated,
                         onLogout = onLogout
                     )
-                }
-            }
-
-            else -> {
-                Box (
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(innerPadding),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text ("Screen for tab index $selectedIndex")
                 }
             }
         }

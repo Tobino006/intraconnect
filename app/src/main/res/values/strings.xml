@@ -31,4 +31,9 @@
     <string name="notification_updated">Updated: </string>
     <string name="notification_detail">Notification detail</string>
     <string name="go_back">Go Back</string>
+    <string name="filter_notifications">Filter notifications</string>
+    <string name="filter_global">Global only</string>
+    <string name="filter_department">Department only</string>
+    <string name="filter_global_department">Both global and department</string>
+    <string name="filter_all">All</string>
 </resources>
