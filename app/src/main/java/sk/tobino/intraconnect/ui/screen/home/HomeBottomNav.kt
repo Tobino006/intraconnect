@@ -55,7 +55,7 @@ fun HomeBottomNav (
                         // other icons
                         Icon (
                             modifier = Modifier.size(30.dp),
-                            painter = navItem.icon,
+                            painter = painterResource(R.drawable.ic_avatar_default),
                             contentDescription = navItem.label,
                             tint = Color.Unspecified
                         )
