@@ -27,7 +27,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
-import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -180,6 +179,15 @@ fun ProfileScreen (
             fontWeight = FontWeight.Bold,
             modifier = Modifier.fillMaxWidth()
         )
+
+        uiState.email?.let { email ->
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(
+                text = email,
+                style = MaterialTheme.typography.bodySmall,
+                modifier = Modifier.fillMaxWidth()
+            )
+        }
 
         Spacer(modifier = Modifier.height(12.dp))
 

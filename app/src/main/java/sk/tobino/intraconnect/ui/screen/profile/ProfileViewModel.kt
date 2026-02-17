@@ -29,6 +29,7 @@ data class ProfileUiState (
     val avatarUrl: String? = null,
     val departmentName: String? = null,
     val companyName: String? = null,
+    val email: String? = null,
     val errorMessage: String? = null,
     val successMessage: String? = null,
     val logout: Boolean = false
@@ -95,6 +96,7 @@ class ProfileViewModel (
                 avatarUrl = userRow.avatarUrl,
                 departmentName = departmentName,
                 companyName = companyName,
+                email = authUser.email,
                 errorMessage = null,
             )
         } catch (e: Exception) {
