@@ -24,9 +24,7 @@ import sk.tobino.intraconnect.BuildConfig
 
 @Composable
 fun HomeHeader(logoUrl: String?) {
-    val baseUrl = BuildConfig.SUPABASE_URL
-    val fullLogoUrl = logoUrl?.let { "$baseUrl/storage/v1/object/public/$it" }
-    Log.d("HomeHeader", "logoUrl=$logoUrl, fullLogoUrl=$fullLogoUrl")
+    Log.d("HomeHeader", "logoUrl=$logoUrl")
     Box(
         modifier = Modifier.fillMaxWidth()
             .height(100.dp)
@@ -37,7 +35,7 @@ fun HomeHeader(logoUrl: String?) {
 
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
-                    .data(fullLogoUrl)
+                    .data(logoUrl)
                     .decoderFactory(SvgDecoder.Factory())
                     .crossfade(true)
                     .build(),
