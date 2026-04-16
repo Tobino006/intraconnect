@@ -36,5 +36,9 @@
     <string name="filter_department">Len pre moje oddelenie</string>
     <string name="filter_all">Všetky</string>
     <string name="filter_global_department">Všetky (globálne a pre moje oddelenie)</string>
+    <string name="company_not_found">Nenačítali sa dáta firmy.</string>
+    <string name="refresh">Znova</string>
+    <string name="error_loading_title">Chyba pri načítaní</string>
+    <string name="error_loading_message">Skontrolujte pripojenie do siete.</string>
 
 </resources>

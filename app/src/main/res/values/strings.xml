@@ -36,4 +36,8 @@
     <string name="filter_department">Department only</string>
     <string name="filter_global_department">Both global and department</string>
     <string name="filter_all">All</string>
+    <string name="company_not_found">Could not load company data.</string>
+    <string name="refresh">Refresh</string>
+    <string name="error_loading_title">Error loading</string>
+    <string name="error_loading_message">Check your internet connection.</string>
 </resources>

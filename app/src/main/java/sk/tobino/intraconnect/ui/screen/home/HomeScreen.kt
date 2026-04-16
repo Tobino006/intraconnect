@@ -1,11 +1,14 @@
 package sk.tobino.intraconnect.ui.screen.home
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
@@ -22,17 +25,20 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import sk.tobino.intraconnect.ui.screen.settings.SettingsScreen
 import sk.tobino.intraconnect.ui.screen.settings.SettingsUiState
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import sk.tobino.intraconnect.R
 import sk.tobino.intraconnect.ui.screen.notification.NotificationCard
 import sk.tobino.intraconnect.ui.screen.notification.NotificationFilterScreen
 import sk.tobino.intraconnect.ui.screen.profile.ProfileScreen
 import sk.tobino.intraconnect.ui.screen.settings.SettingsViewModel
 import sk.tobino.intraconnect.ui.theme.CompanyTheme
 import sk.tobino.intraconnect.ui.theme.ThemeMode
+import sk.tobino.intraconnect.ui.util.ErrorStateScreen
 
 
 @Composable
@@ -65,11 +71,24 @@ fun HomeScreen (
         return
     }
 
+    if (state.errorMessage != null && state.company == null) {
+        ErrorStateScreen (
+            onRetryClick = { vm.loadHomeData() },
+        )
+        return
+    }
+
     if (state.company == null) {
-        Box (
-            modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center
+        Column (
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            Text("No company selected")
+            Text(text = stringResource(R.string.company_not_found))
+            Spacer(modifier = Modifier.padding(16.dp))
+            Button (
+                onClick = { vm.loadHomeData() },
+            ) {
+                Text(text = stringResource(R.string.refresh))
+            }
         }
         return
     }
@@ -156,7 +175,7 @@ private fun HomeScreenContent (
                     LazyColumn (
                         modifier = Modifier
                             .fillMaxSize()
-                            .padding(bottom = 80.dp, top = 16.dp)
+                            .padding(bottom = 8.dp, top = 8.dp)
                     ) {
                         itemsIndexed(state.notifications) { index, notif ->
                             NotificationCard(

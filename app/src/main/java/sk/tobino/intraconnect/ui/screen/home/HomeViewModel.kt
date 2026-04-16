@@ -32,7 +32,8 @@ data class HomeUiState (
     val currentOffset: Int = 0,
     val pageSize: Int = 10,
     val canLoadMore: Boolean = true,
-    val isLoadingMore: Boolean = false
+    val isLoadingMore: Boolean = false,
+    val errorMessage: String? = null
 )
 
 class HomeViewModel (
@@ -101,12 +102,13 @@ class HomeViewModel (
                 currentOffset = firstPage.size,
                 canLoadMore = firstPage.size == uiState.pageSize,
                 isLoadingMore = false,
-                notificationFilter = currentFilter
+                notificationFilter = currentFilter,
+                errorMessage = null,
 
             )
         } catch (e: Exception) {
             Log.e("HomeViewModel", "Error in loadHomeData", e)
-            uiState = uiState.copy(isLoading = false, company = null, notifications = emptyList())
+            uiState = uiState.copy(isLoading = false, company = null, notifications = emptyList(), errorMessage = e.message ?: "Error loading data")
         }
 
     }

@@ -28,6 +28,7 @@ import sk.tobino.intraconnect.ui.screen.home.HomeHeader
 import sk.tobino.intraconnect.ui.screen.settings.SettingsViewModel
 import sk.tobino.intraconnect.ui.theme.CompanyTheme
 import sk.tobino.intraconnect.ui.theme.ThemeMode
+import sk.tobino.intraconnect.ui.util.ErrorStateScreen
 
 @Composable
 fun NotificationDetailScreen (
@@ -91,14 +92,12 @@ fun NotificationDetailScreen (
                 }
 
                 state.errorMessage != null -> {
-                    Box (
+                    ErrorStateScreen (
                         modifier = Modifier
                             .fillMaxSize()
                             .padding(innerPadding),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Text(text = state.errorMessage)
-                    }
+                        onRetryClick = { vm.loadNotification(id) }
+                    )
                 }
 
                 state.notification != null -> {

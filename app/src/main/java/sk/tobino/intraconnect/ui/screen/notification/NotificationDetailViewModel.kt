@@ -46,6 +46,9 @@ class NotificationDetailViewModel (
                 return@launch
             }
 
+            Log.d("NotificationDetailVM", "Loaded notification: $notification")
+            Log.d("NotificationDetailVM", "createdBy from notification: ${notification.createdBy}")
+
             val client = SupabaseClientProvider.client
 
             // author

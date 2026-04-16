@@ -1,5 +1,6 @@
 package sk.tobino.intraconnect.ui.screen.notification
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -80,11 +81,12 @@ fun NotificationDetailCard (
     updatedText: String?
 ) {
     Column(
-        modifier = modifier.padding(16.dp),
+        modifier = modifier.padding(16.dp).verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.Top
     ) {
 
         // author
+        Log.d("NotificationDetailCard", "author=$author")
         if (author != null) {
             Row(
                 verticalAlignment = Alignment.CenterVertically
@@ -146,12 +148,10 @@ fun NotificationDetailCard (
         )
 
         Spacer(modifier = Modifier.height(12.dp))
-
-        // scrollable message
+        
         Column(
             modifier = Modifier
-                .heightIn(max = 425.dp) // 👈 limit výšky
-                .verticalScroll(rememberScrollState())
+                .heightIn(max = 425.dp)
         ) {
             Text(
                 text = notification.message,
