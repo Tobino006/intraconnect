@@ -1,6 +1,7 @@
 package sk.tobino.intraconnect.ui.util
 
 import java.time.OffsetDateTime
+import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 
@@ -8,7 +9,10 @@ fun formatDate (
     raw: String,
     locale: Locale
 ): String {
-    val date = OffsetDateTime.parse(raw)
+    val dateUtc = OffsetDateTime.parse(raw)
+
+    // UTC conversion to local time
+    val localDateTime = dateUtc.atZoneSameInstant(ZoneId.systemDefault())
 
     val formatter = when (locale.language) {
         "sk" -> DateTimeFormatter.ofPattern (
@@ -21,5 +25,5 @@ fun formatDate (
         )
     }
 
-    return date.format(formatter)
+    return localDateTime.format(formatter)
 }
