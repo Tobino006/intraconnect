@@ -48,6 +48,14 @@ fun NotificationFilterScreen (
             )
 
             HorizontalDivider()
+
+            FilterOption (
+                text = stringResource(R.string.filter_global),
+                selected = currentFilter == NotificationFilter.GLOBAL_ONLY,
+                onClick = { onFilterSelected(NotificationFilter.GLOBAL_ONLY) }
+            )
+
+            HorizontalDivider()
         } else {
             // global
             FilterOption (
