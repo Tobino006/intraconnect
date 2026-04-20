@@ -29,34 +29,35 @@ fun NotificationFilterScreen (
         modifier = Modifier.fillMaxSize().padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        // global
-        FilterOption (
-            text = stringResource(R.string.filter_global),
-            selected = currentFilter == NotificationFilter.GLOBAL_ONLY,
-            onClick = { onFilterSelected(NotificationFilter.GLOBAL_ONLY) }
-        )
 
-        HorizontalDivider()
-
-        // department only
+        // shows only when user is part of a department
         if (hasDepartment) {
+            // all
+            FilterOption (
+                text = if (hasDepartment) stringResource(R.string.filter_global_department) else stringResource(R.string.filter_all),
+                selected = currentFilter == NotificationFilter.ALL,
+                onClick = { onFilterSelected(NotificationFilter.ALL) }
+            )
+
+            HorizontalDivider()
+
             FilterOption (
                 text = stringResource(R.string.filter_department),
                 selected = currentFilter == NotificationFilter.DEPARTMENT_ONLY,
                 onClick = { onFilterSelected(NotificationFilter.DEPARTMENT_ONLY) }
             )
+
+            HorizontalDivider()
+        } else {
+            // global
+            FilterOption (
+                text = stringResource(R.string.filter_global),
+                selected = currentFilter == NotificationFilter.GLOBAL_ONLY,
+                onClick = { onFilterSelected(NotificationFilter.GLOBAL_ONLY) }
+            )
+
+            HorizontalDivider()
         }
-
-        HorizontalDivider()
-
-        // all
-        FilterOption (
-            text = if (hasDepartment) stringResource(R.string.filter_global_department) else stringResource(R.string.filter_all),
-            selected = currentFilter == NotificationFilter.ALL,
-            onClick = { onFilterSelected(NotificationFilter.ALL) }
-        )
-
-        HorizontalDivider()
     }
 }
 
